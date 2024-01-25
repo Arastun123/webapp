@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const port = 3003;
-app.set('view engine', 'ejs');
 
 const db = mysql.createConnection({
     host: '127.0.0.1',
@@ -16,19 +15,15 @@ const db = mysql.createConnection({
 
 db.connect((err) => {
     if (err) {
-        console.error('Error connecting to MySQL database:', err);
+        console.error(err);
     } else {
         console.log('Connected to MySQL database');
     }
 });
 
-
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.htm');
-});
+app.get('/', (req, res) => { res.sendFile(__dirname + '/index.htm') });
 
 app.post('/submit/nomenklatura', (req, res) => {
     const formData = req.body;
@@ -58,7 +53,6 @@ app.post('/submit/kontragent', (req, res) => {
         }
     });
 });
-
 
 
 app.listen(port, () => { console.log(`http://localhost:${port}`) });

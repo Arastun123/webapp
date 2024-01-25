@@ -14,11 +14,15 @@
         .container {
             padding: 10px;
         }
-
+        .modal{
+            display: flex;
+            justify-content: center;
+        }
         button {
             border: 1px solid #333;
             background: none;
             padding: 10px;
+            margin: 10px;
         }
 
         button:hover {
@@ -27,7 +31,7 @@
         }
 
         #formBox {
-            width: 30%;
+            width: 40%;
             margin: 40px auto;
             padding: 20px;
             box-shadow: 12px 12px 2px 1px #f3f3f380;
@@ -66,9 +70,10 @@
 <body>
     <div class="container">
         <div class="modal">
-            <button class="nomenklatura" onclick="openForm('nomenklatura')">Nomenklatura</button>
-            <button class="kontragent" onclick="openForm('kontragent')">Kontragent</button>
+            <button class="nomenklatura" onclick="showForm('nomenklatura')">Nomenklatura</button>
+            <button class="kontragent" onclick="showForm('kontragent')">Kontragent</button>
         </div>
+
         <div id="formBox">
             <div id="nomenklatura" class="hidden">
                 <h3 style="text-align: center">Nomenklatura əlavə edin</h3>
@@ -84,9 +89,9 @@
             </div>
             <div id="kontragent" class="hidden">
                 <h3 style="text-align: center">Kontragent əlavə edin</h3>
-                <div class="d-flex active">
-                    <button class="toggle-button" data-target="fizikiFields">Fiziki</button>
-                    <button class="toggle-button" data-target="huquqiFields">Hüquqi</button>
+                <div class="modal active">
+                    <button onclick="showKontragentForm('fizikiFields')">Fiziki</button>
+                    <button onclick="showKontragentForm('huquqiFields')">Hüquqi</button>
                 </div>
 
                 <form action="/submit/kontragent" method="post" id="fizikiFields" class="hidden">
@@ -112,34 +117,19 @@
     </div>
 
     <script>
-        function openForm(formId) {
-            const forms = document.querySelectorAll('#formBox div');
-            forms.forEach(form => form.classList.add('hidden'));
+        function showForm(formId) {
+        document.getElementById('nomenklatura').style.display = 'none';
+        document.getElementById('kontragent').style.display = 'none';
 
-            const selectedForm = document.getElementById(formId);
-            if (selectedForm) {
-                selectedForm.classList.remove('hidden');
-            }
-        }
+        document.getElementById(formId).style.display = 'block';
+    }
 
-        document.querySelector('.d-flex').addEventListener('click', function (event) {
-            if (event.target.classList.contains('toggle-button')) {
-                const targetFormId = event.target.getAttribute('data-target');
-                showFields(targetFormId);
-            }
-        });
+    function showKontragentForm(subFormId) {
+        document.getElementById('fizikiFields').style.display = 'none';
+        document.getElementById('huquqiFields').style.display = 'none';
 
-        function showFields(fieldId) {
-            const forms = document.querySelectorAll('form');
-            forms.forEach(form => {
-                if (form.id === fieldId) {
-                    form.classList.toggle('hidden', false);
-                } else {
-                    form.classList.add('hidden');
-                }
-            });
-        }
-
+        document.getElementById(subFormId).style.display = 'block';
+    }
     </script>
 
 </body>
