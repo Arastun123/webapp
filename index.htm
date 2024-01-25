@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            padding: 10px;
+        }
+
+        button {
+            border: 1px solid #333;
+            background: none;
+            padding: 10px;
+        }
+
+        button:hover {
+            background: rgb(52, 52, 141);
+            color: #fff;
+        }
+
+        #formBox {
+            width: 30%;
+            margin: 40px auto;
+            padding: 20px;
+            box-shadow: 12px 12px 2px 1px #f3f3f380;
+            border-radius: 16px;
+        }
+
+        form input {
+            display: block;
+            margin: auto;
+            padding: 10px;
+            margin: 10px auto;
+        }
+
+        .d-flex {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .d-inline {
+            display: inline-block;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .active {
+            display: block;
+            margin: 10px auto;
+            width: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="modal">
+            <button class="nomenklatura" onclick="openForm('nomenklatura')">Nomenklatura</button>
+            <button class="kontragent" onclick="openForm('kontragent')">Kontragent</button>
+        </div>
+        <div id="formBox">
+            <div id="nomenklatura" class="hidden">
+                <h3 style="text-align: center">Nomenklatura əlavə edin</h3>
+                <form action="/submit/nomenklatura" method="post">
+                    <input type="text" name="name" placeholder="Ad" required>
+                    <input type="text" name="type" placeholder="Növ" required>
+                    <input type="text" name="kateqoriya" placeholder="Kateqoriya" required>
+                    <input type="text" name="brend" placeholder="Brend" required>
+                    <input type="text" name="qimyet" placeholder="Qimyət" required>
+
+                    <input type="submit" value="Send">
+                </form>
+            </div>
+            <div id="kontragent" class="hidden">
+                <h3 style="text-align: center">Kontragent əlavə edin</h3>
+                <div class="d-flex active">
+                    <button class="toggle-button" data-target="fizikiFields">Fiziki</button>
+                    <button class="toggle-button" data-target="huquqiFields">Hüquqi</button>
+                </div>
+
+                <form action="/submit/kontragent" method="post" id="fizikiFields" class="hidden">
+                    <p style="text-align: center">Fiziki</p>
+                    <input type="text" name="name" placeholder="Ad" required>
+                    <input type="text" name="phone_number" placeholder="Tel" required>
+                    <input type="text" name="address" placeholder="Ünvan" required>
+                    <input type="text" name="tin" placeholder="Vöen" required>
+                    <input type="submit" value="Submit">
+                </form>
+
+                <form action="/submit/kontragent" method="post" id="huquqiFields" class="hidden">
+                    <p style="text-align: center;">Hüquqi</p>
+                    <input type="text" name="name" placeholder="Ad" required>
+                    <input type="text" name="phone_number" placeholder="Tel" required>
+                    <input type="text" name="address" placeholder="Ünvan" required>
+                    <input type="text" name="tin" placeholder="Vöen" required>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        function openForm(formId) {
+            const forms = document.querySelectorAll('#formBox div');
+            forms.forEach(form => form.classList.add('hidden'));
+
+            const selectedForm = document.getElementById(formId);
+            if (selectedForm) {
+                selectedForm.classList.remove('hidden');
+            }
+        }
+
+        document.querySelector('.d-flex').addEventListener('click', function (event) {
+            if (event.target.classList.contains('toggle-button')) {
+                const targetFormId = event.target.getAttribute('data-target');
+                showFields(targetFormId);
+            }
+        });
+
+        function showFields(fieldId) {
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                if (form.id === fieldId) {
+                    form.classList.toggle('hidden', false);
+                } else {
+                    form.classList.add('hidden');
+                }
+            });
+        }
+
+    </script>
+
+</body>
+
+</html>
