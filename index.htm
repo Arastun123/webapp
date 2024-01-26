@@ -9,23 +9,26 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family:  Arial, Helvetica, sans-serif
         }
 
         .container {
             padding: 10px;
         }
-        .modal{
+
+        .modal {
             display: flex;
             justify-content: center;
         }
-        button {
+
+        .btn {
             border: 1px solid #333;
             background: none;
             padding: 10px;
             margin: 10px;
         }
 
-        button:hover {
+        .btn:hover {
             background: rgb(52, 52, 141);
             color: #fff;
         }
@@ -43,6 +46,7 @@
             margin: auto;
             padding: 10px;
             margin: 10px auto;
+            outline: none;
         }
 
         .d-flex {
@@ -50,28 +54,22 @@
             justify-content: space-around;
             align-items: center;
         }
-
-        .d-inline {
-            display: inline-block;
-        }
-
-        .hidden {
-            display: none;
-        }
-
+        .d-inline { display: inline-block; }
+        .hidden {display: none; }
         .active {
             display: block;
             margin: 10px auto;
             width: 50%;
         }
+        @media only screen and (max-width: 768px) { #formBox { width: 100%; } }
     </style>
 </head>
 
 <body>
     <div class="container">
         <div class="modal">
-            <button class="nomenklatura" onclick="showForm('nomenklatura')">Nomenklatura</button>
-            <button class="kontragent" onclick="showForm('kontragent')">Kontragent</button>
+            <button class="nomenklatura btn" onclick="showForm('nomenklatura')">Nomenklatura</button>
+            <button class="kontragent btn" onclick="showForm('kontragent')">Kontragent</button>
         </div>
 
         <div id="formBox">
@@ -83,15 +81,18 @@
                     <input type="text" name="kateqoriya" placeholder="Kateqoriya" required>
                     <input type="text" name="brend" placeholder="Brend" required>
                     <input type="text" name="qimyet" placeholder="Qimyət" required>
-
-                    <input type="submit" value="Send">
+                    <div class="d-flex">
+                        <input type="submit" value="Təsdiq et" class="btn">
+                    </div>
                 </form>
             </div>
             <div id="kontragent" class="hidden">
                 <h3 style="text-align: center">Kontragent əlavə edin</h3>
-                <div class="modal active">
-                    <button onclick="showKontragentForm('fizikiFields')">Fiziki</button>
-                    <button onclick="showKontragentForm('huquqiFields')">Hüquqi</button>
+                <div class="active">
+                    <div class="modal">
+                        <button onclick="showKontragentForm('fizikiFields')" class="btn">Fiziki</button>
+                        <button onclick="showKontragentForm('huquqiFields')" class="btn">Hüquqi</button>
+                    </div>
                 </div>
 
                 <form action="/submit/kontragent" method="post" id="fizikiFields" class="hidden">
@@ -100,7 +101,9 @@
                     <input type="text" name="phone_number" placeholder="Tel" required>
                     <input type="text" name="address" placeholder="Ünvan" required>
                     <input type="text" name="tin" placeholder="Vöen" required>
-                    <input type="submit" value="Submit">
+                    <div class="d-flex">
+                        <input type="submit" value="Təsdiq et" class="btn">
+                    </div>
                 </form>
 
                 <form action="/submit/kontragent" method="post" id="huquqiFields" class="hidden">
@@ -109,27 +112,26 @@
                     <input type="text" name="phone_number" placeholder="Tel" required>
                     <input type="text" name="address" placeholder="Ünvan" required>
                     <input type="text" name="tin" placeholder="Vöen" required>
-                    <input type="submit" value="Submit">
+                    <div class="d-flex">
+                        <input type="submit" value="Təsdiq et" class="btn">
+                    </div>
                 </form>
             </div>
         </div>
     </div>
-    </div>
 
     <script>
         function showForm(formId) {
-        document.getElementById('nomenklatura').style.display = 'none';
-        document.getElementById('kontragent').style.display = 'none';
+            document.getElementById('nomenklatura').style.display = 'none';
+            document.getElementById('kontragent').style.display = 'none';
+            document.getElementById(formId).style.display = 'block';
+        }
 
-        document.getElementById(formId).style.display = 'block';
-    }
-
-    function showKontragentForm(subFormId) {
-        document.getElementById('fizikiFields').style.display = 'none';
-        document.getElementById('huquqiFields').style.display = 'none';
-
-        document.getElementById(subFormId).style.display = 'block';
-    }
+        function showKontragentForm(subFormId) {
+            document.getElementById('fizikiFields').style.display = 'none';
+            document.getElementById('huquqiFields').style.display = 'none';
+            document.getElementById(subFormId).style.display = 'block';
+        }
     </script>
 
 </body>
