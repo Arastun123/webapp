@@ -5,11 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        body {
+            background: #eee;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family:  Arial, Helvetica, sans-serif
+            font-family: Arial, Helvetica, sans-serif
         }
 
         .container {
@@ -29,16 +33,18 @@
         }
 
         .btn:hover {
-            background: rgb(52, 52, 141);
+            background: #34348d;
             color: #fff;
         }
 
         #formBox {
             width: 40%;
             margin: 40px auto;
-            padding: 20px;
-            box-shadow: 12px 12px 2px 1px #f3f3f380;
+        }
+        .box{
+            box-shadow: 3px 1px 2px #fff, inset 0px 3px 3px 3px #fff;
             border-radius: 16px;
+            padding: 20px;
         }
 
         form input {
@@ -54,14 +60,32 @@
             justify-content: space-around;
             align-items: center;
         }
-        .d-inline { display: inline-block; }
-        .hidden {display: none; }
+
+        .d-inline {
+            display: inline-block;
+        }
+
+        .hidden {
+            display: none;
+        }
+
         .active {
             display: block;
             margin: 10px auto;
             width: 50%;
         }
-        @media only screen and (max-width: 768px) { #formBox { width: 100%; } }
+
+        .submit{ 
+            background: green;
+            color: #fff;
+            border: none;
+        }
+
+        @media only screen and (max-width: 768px) {
+            #formBox {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
@@ -73,7 +97,7 @@
         </div>
 
         <div id="formBox">
-            <div id="nomenklatura" class="hidden">
+            <div id="nomenklatura" class="hidden box">
                 <h3 style="text-align: center">Nomenklatura əlavə edin</h3>
                 <form action="/submit/nomenklatura" method="post">
                     <input type="text" name="name" placeholder="Ad" required>
@@ -82,7 +106,7 @@
                     <input type="text" name="brend" placeholder="Brend" required>
                     <input type="text" name="qimyet" placeholder="Qimyət" required>
                     <div class="d-flex">
-                        <input type="submit" value="Təsdiq et" class="btn">
+                        <input type="submit" value="Təsdiq et" class="btn submit">
                     </div>
                 </form>
             </div>
@@ -95,43 +119,56 @@
                     </div>
                 </div>
 
-                <form action="/submit/kontragent" method="post" id="fizikiFields" class="hidden">
+                <form action="/submit/kontragent" method="post" id="fizikiFields" class="hidden box">
                     <p style="text-align: center">Fiziki</p>
                     <input type="text" name="name" placeholder="Ad" required>
                     <input type="text" name="phone_number" placeholder="Tel" required>
                     <input type="text" name="address" placeholder="Ünvan" required>
                     <input type="text" name="tin" placeholder="Vöen" required>
                     <div class="d-flex">
-                        <input type="submit" value="Təsdiq et" class="btn">
+                        <input type="submit" value="Təsdiq et" class="btn submit">
                     </div>
                 </form>
 
-                <form action="/submit/kontragent" method="post" id="huquqiFields" class="hidden">
+                <form action="/submit/kontragent" method="post" id="huquqiFields" class="hidden box">
                     <p style="text-align: center;">Hüquqi</p>
                     <input type="text" name="name" placeholder="Ad" required>
                     <input type="text" name="phone_number" placeholder="Tel" required>
                     <input type="text" name="address" placeholder="Ünvan" required>
                     <input type="text" name="tin" placeholder="Vöen" required>
                     <div class="d-flex">
-                        <input type="submit" value="Təsdiq et" class="btn">
+                        <input type="submit" value="Təsdiq et" class="btn submit">
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script>
         function showForm(formId) {
-            document.getElementById('nomenklatura').style.display = 'none';
-            document.getElementById('kontragent').style.display = 'none';
-            document.getElementById(formId).style.display = 'block';
+            $('#nomenklatura, #kontragent').hide();
+            $('#' + formId).show();
         }
 
         function showKontragentForm(subFormId) {
-            document.getElementById('fizikiFields').style.display = 'none';
-            document.getElementById('huquqiFields').style.display = 'none';
-            document.getElementById(subFormId).style.display = 'block';
+            $('#fizikiFields, #huquqiFields').hide();
+            $('#' + subFormId).show();
         }
+
+        $(document).ready(function () {
+            $('form').submit(function (event) {
+                event.preventDefault();
+                $.post('/submit/kontragent', $(this).serialize(), function (response) {
+                    if (response.success) {
+                        $("input[type=text]"). val("");
+                        alert('Məlumatlar göndərildi!');
+                    } else {
+                        alert('Uğursuz cəht!');
+                    }
+                });
+            });
+        });
     </script>
 
 </body>

@@ -49,10 +49,11 @@ app.post('/submit/kontragent', (req, res) => {
             console.error(err);
             res.status(500).send('Internal Server Error');
         } else {
-            res.send('Form submitted successfully for Kontragent!');
+            res.json({ success: true });
         }
     });
 });
+
 
 
 app.listen(port, () => { console.log(`http://localhost:${port}`) });
