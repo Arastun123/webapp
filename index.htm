@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-            background: #eee;
+            background: #eeeeee46;
         }
 
         * {
@@ -41,7 +41,8 @@
             width: 40%;
             margin: 40px auto;
         }
-        .box{
+
+        .box {
             box-shadow: 3px 1px 2px #fff, inset 0px 3px 3px 3px #fff;
             border-radius: 16px;
             padding: 20px;
@@ -75,7 +76,7 @@
             width: 50%;
         }
 
-        .submit{ 
+        .submit {
             background: green;
             color: #fff;
             border: none;
@@ -85,6 +86,13 @@
             #formBox {
                 width: 100%;
             }
+        }
+
+        .label {
+            text-align: center;
+        }
+        .label input{
+            display: inline-block;
         }
     </style>
 </head>
@@ -101,14 +109,15 @@
                 <h3 style="text-align: center">Nomenklatura əlavə edin</h3>
                 <form action="/submit/nomenklatura" method="post">
                     <input type="text" name="name" placeholder="Ad" required>
-                    <input type="text" name="type" placeholder="Növ" required>
-                    <input type="text" name="kateqoriya" placeholder="Kateqoriya" required>
-                    <input type="text" name="brend" placeholder="Brend" required>
-                    <input type="text" name="qimyet" placeholder="Qimyət" required>
+                    <input type="text" name="kind" placeholder="Növ" required>
+                    <input type="text" name="category" placeholder="Kateqoriya" required>
+                    <input type="text" name="brand" placeholder="Brend" required>
+                    <input type="number" name="price" placeholder="Qimyət" required>
                     <div class="d-flex">
                         <input type="submit" value="Təsdiq et" class="btn submit">
                     </div>
                 </form>
+
             </div>
             <div id="kontragent" class="hidden">
                 <h3 style="text-align: center">Kontragent əlavə edin</h3>
@@ -120,22 +129,30 @@
                 </div>
 
                 <form action="/submit/kontragent" method="post" id="fizikiFields" class="hidden box">
-                    <p style="text-align: center">Fiziki</p>
+                    <!-- <p style="text-align: center">Fiziki</p> -->
+                    <div class="label">
+                        <label for="type"> Fiziki şəxs </label>
+                        <input type="checkbox" name="type" value="fiziki" checked>
+                    </div>
                     <input type="text" name="name" placeholder="Ad" required>
                     <input type="text" name="phone_number" placeholder="Tel" required>
                     <input type="text" name="address" placeholder="Ünvan" required>
-                    <input type="text" name="tin" placeholder="Vöen" required>
+                    <input type="text" name="tin" placeholder="Vöen">
                     <div class="d-flex">
                         <input type="submit" value="Təsdiq et" class="btn submit">
                     </div>
                 </form>
 
                 <form action="/submit/kontragent" method="post" id="huquqiFields" class="hidden box">
-                    <p style="text-align: center;">Hüquqi</p>
+                    <!-- <p style="text-align: center;">Hüquqi</p> -->
+                    <div class="label">
+                        <label for="type" class="d-flex"> Hüquqi şəxs</label>
+                        <input type="checkbox" name="type" value="hüquqi" checked>
+                    </div>
                     <input type="text" name="name" placeholder="Ad" required>
                     <input type="text" name="phone_number" placeholder="Tel" required>
                     <input type="text" name="address" placeholder="Ünvan" required>
-                    <input type="text" name="tin" placeholder="Vöen" required>
+                    <input type="text" name="tin" placeholder="Vöen">
                     <div class="d-flex">
                         <input type="submit" value="Təsdiq et" class="btn submit">
                     </div>
@@ -157,11 +174,24 @@
         }
 
         $(document).ready(function () {
-            $('form').submit(function (event) {
+            $('#nomenklatura form').submit(function (event) {
                 event.preventDefault();
+
+                $.post('/submit/nomenklatura', $(this).serialize(), function (response) {
+                    if (response.success) {
+                        $("#nomenklatura input[type=text], #nomenklatura input[type=number]").val("");
+                        alert('Məlumatlar göndərildi!');
+                    } else {
+                        alert('Uğursuz cəht!');
+                    }
+                });
+            });
+            $('#kontragent form').submit(function (event) {
+                event.preventDefault();
+
                 $.post('/submit/kontragent', $(this).serialize(), function (response) {
                     if (response.success) {
-                        $("input[type=text]"). val("");
+                        $("#kontragent input[type=text]").val("");
                         alert('Məlumatlar göndərildi!');
                     } else {
                         alert('Uğursuz cəht!');
