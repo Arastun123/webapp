@@ -91,8 +91,18 @@
         .label {
             text-align: center;
         }
-        .label input{
+
+        .label input {
             display: inline-block;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        tr>* {
+            border: 1px solid #333;
+            padding: 10px;
         }
     </style>
 </head>
@@ -117,7 +127,18 @@
                         <input type="submit" value="Təsdiq et" class="btn submit">
                     </div>
                 </form>
-
+                <table id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Brand</th>
+                            <th>Kind</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataBody"></tbody>
+                </table>
             </div>
             <div id="kontragent" class="hidden">
                 <h3 style="text-align: center">Kontragent əlavə edin</h3>
@@ -159,6 +180,7 @@
                 </form>
             </div>
         </div>
+
     </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
@@ -186,6 +208,7 @@
                     }
                 });
             });
+
             $('#kontragent form').submit(function (event) {
                 event.preventDefault();
 
@@ -198,7 +221,23 @@
                     }
                 });
             });
+
+            $.get('/data', function (data) {
+                let head = ['name', 'brand', 'category', 'kind', 'price']
+                let resData = []
+                data.forEach(function (item) { resData.push(item) });
+
+                resData.forEach(function (row) {
+                    let newRow = '<tr>';
+                    head.forEach(function (item) {
+                        newRow += '<td>' + row[item] + '</td>';
+                    });
+                    newRow += '</tr>';
+                    $('#dataBody').append(newRow);
+                });
+            })
         });
+
     </script>
 
 </body>

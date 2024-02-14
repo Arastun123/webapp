@@ -51,6 +51,17 @@ app.post('/submit/kontragent', (req, res) => {
     });
 });
 
-
+app.get('/data', (req, res) => {
+    const sql = "SELECT * FROM nomenklatura";
+    db.query(sql, (error, result) => {
+        if(error) {
+            console.error(error)
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+        else{
+            res.json(result)
+        }
+    })
+})
 
 app.listen(port, () => { console.log(`http://localhost:${port}`) });
