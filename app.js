@@ -51,7 +51,7 @@ app.post('/submit/kontragent', (req, res) => {
     });
 });
 
-app.get('/data', (req, res) => {
+app.get('/nomenklatura', (req, res) => {
     const sql = "SELECT * FROM nomenklatura";
     db.query(sql, (error, result) => {
         if(error) {
@@ -61,6 +61,17 @@ app.get('/data', (req, res) => {
         else{
             res.json(result)
         }
+    })
+})
+
+app.get('/kontragent', (req, res) => {
+    const sql ='SELECT * FROM kontragent';
+    db.query(sql, (error, result) => {
+        if(error) {
+            console.error(error)
+            res.status(500).json({error: 'Internal server error'})
+        }
+        else res.json(result)
     })
 })
 
