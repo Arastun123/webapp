@@ -161,8 +161,8 @@
                 <form action="/submit/kontragent" method="post" id="huquqiFields" class="hidden box">
                     <!-- <p style="text-align: center;">Hüquqi</p> -->
                     <div class="label">
-                        <label for="type" class="d-flex"> Hüquqi şəxs</label>
-                        <input type="checkbox" name="type" value="hüquqi" checked>
+                        <label for="type"> Hüquqi şəxs </label>
+                        <input type="checkbox" name="type" value="fiziki" checked>
                     </div>
                     <input type="text" name="name" placeholder="Ad" required>
                     <input type="text" name="phone_number" placeholder="Tel" required>
@@ -180,11 +180,11 @@
                 <table id="dataTable">
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th>Ad</th>
                             <th>Brend</th>
-                            <th>Kind</th>
-                            <th>Category</th>
-                            <th>Price</th>
+                            <th>Növ</th>
+                            <th>Kateqoriya</th>
+                            <th>Qiymət</th>
                         </tr>
                     </thead>
                     <tbody id="nomenklaturaBody"></tbody>
@@ -195,7 +195,7 @@
                 <table id="dataTable">
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th>Ad</th>
                             <th>Əlaqə nömrəsi</th>
                             <th>Vöen</th>
                             <th>Ünvan</th>
@@ -264,8 +264,8 @@
             $.get('/kontragent', function (data) {
                 let head = ['name', 'phone_number', 'tin', 'address', 'type'];
                 let resData = []
-                data.forEach(function (item) { 
-                    resData.push(item) 
+                data.forEach(function (item) {
+                    resData.push(item)
                 })
 
                 resData.forEach(function (row) {

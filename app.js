@@ -27,7 +27,6 @@ app.get('/', (req, res) => { res.sendFile(__dirname + '/index.htm') });
 
 app.post('/submit/nomenklatura', (req, res) => {
     const formData = req.body;
-    console.log(formData);
     db.query('INSERT INTO nomenklatura SET ?', formData, (err, result) => {
         if (err) {
             console.error(err);
